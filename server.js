@@ -30,6 +30,14 @@ Ao responder um pedido de projeto:
 
 Se a pessoa pedir algo tecnicamente inviável ou perigoso (alta tensão, baterias de lítio sem proteção, etc), avise claramente e sugira a alternativa segura.`;
 
+function withTimeout(promise, ms, label) {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`Tempo esgotado (${ms}ms) esperando: ${label}`)), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
 app.post("/api/chat", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -37,16 +45,23 @@ app.post("/api/chat", async (req, res) => {
       return res.status(400).json({ error: "Campo 'prompt' é obrigatório." });
     }
 
-    const interaction = await ai.interactions.create({
-      model: TEXT_MODEL,
-      system_instruction: SYSTEM_INSTRUCTION,
-      input: prompt,
-    });
+    console.log("[/api/chat] chamando a IA com prompt:", prompt.slice(0, 80));
 
+    const interaction = await withTimeout(
+      ai.interactions.create({
+        model: TEXT_MODEL,
+        system_instruction: SYSTEM_INSTRUCTION,
+        input: prompt,
+      }),
+      25000,
+      "resposta de texto da IA"
+    );
+
+    console.log("[/api/chat] resposta recebida");
     res.json({ text: interaction.output_text });
   } catch (err) {
     console.error("Erro /api/chat:", err);
-    res.status(500).json({ error: "Falha ao consultar a IA.", detail: String(err) });
+    res.status(500).json({ error: "Falha ao consultar a IA.", detail: String(err?.message || err) });
   }
 });
 
