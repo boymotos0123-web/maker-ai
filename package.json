@@ -1,0 +1,16 @@
+{
+  "name": "maker-ia",
+  "version": "1.0.0",
+  "description": "Assistente de IA especializado em projetos de impressão 3D, ESP32 e Arduino — gera orientação técnica e imagem conceito do projeto.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0"
+  }
+}

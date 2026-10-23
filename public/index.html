@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maker IA</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">⌁</span>
+      <div class="brand-text">
+        <h1>Maker IA</h1>
+        <p>Especialista em ESP32 · Arduino · Impressão 3D</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="chat-shell">
+    <div id="messages" class="messages">
+      <div class="msg msg-ai">
+        <p>Descreve a ideia do seu projeto — componentes, orçamento, pra que serve — e eu te dou o passo a passo técnico. Se quiser, gero também uma imagem conceito de como ficaria.</p>
+      </div>
+    </div>
+
+    <form id="form" class="composer">
+      <textarea id="prompt" rows="2" placeholder="Ex: um suporte de celular articulado com braço de 2 eixos..." required></textarea>
+      <div class="composer-actions">
+        <label class="checkbox">
+          <input type="checkbox" id="wantImage" />
+          <span>gerar imagem também</span>
+        </label>
+        <button type="submit" id="sendBtn">Enviar</button>
+      </div>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
