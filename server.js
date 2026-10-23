@@ -62,14 +62,29 @@ app.post("/api/image", async (req, res) => {
     const interaction = await ai.interactions.create({
       model: IMAGE_MODEL,
       input: imagePrompt,
+      response_format: {
+        type: "image",
+        mime_type: "image/png",
+        aspect_ratio: "1:1",
+      },
     });
 
     const image = interaction.output_image;
-    if (!image || !image.data) {
+    if (!image) {
+      console.error("Resposta sem output_image:", JSON.stringify(interaction, null, 2));
       return res.status(502).json({ error: "A IA não retornou imagem desta vez. Tenta reformular o pedido." });
     }
 
-    res.json({ imageBase64: image.data, mimeType: image.mime_type || "image/png" });
+    // O formato exato do campo de bytes pode variar entre versões do SDK — aceita as variações conhecidas.
+    const data = image.data || image.bytes || image.image_bytes;
+    const mimeType = image.mime_type || image.mimeType || "image/png";
+
+    if (!data) {
+      console.error("output_image sem campo de dados reconhecido:", JSON.stringify(image, null, 2));
+      return res.status(502).json({ error: "A IA retornou imagem em formato inesperado — olha o log do servidor." });
+    }
+
+    res.json({ imageBase64: data, mimeType });
   } catch (err) {
     console.error("Erro /api/image:", err);
     res.status(500).json({ error: "Falha ao gerar imagem.", detail: String(err) });
