@@ -1,0 +1,39 @@
+{
+  "name": "zeyforge-desktop",
+  "productName": "ZeyForge",
+  "version": "0.1.0",
+  "description": "ZeyForge — CAD 3D de hardware (versão desktop)",
+  "main": "main.js",
+  "author": "Zeylor",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "dist:linux": "electron-builder --linux AppImage deb",
+    "dist:win": "electron-builder --win nsis",
+    "dist:mac": "electron-builder --mac dmg"
+  },
+  "devDependencies": {
+    "electron": "^45.3.3",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "dev.zeylor.zeyforge",
+    "productName": "ZeyForge",
+    "directories": { "output": "dist" },
+    "files": ["main.js", "package.json"],
+    "extraResources": [
+      { "from": "../index.html", "to": "web/index.html" },
+      { "from": "../manifest.json", "to": "web/manifest.json" },
+      { "from": "../sw.js", "to": "web/sw.js" },
+      { "from": "../css", "to": "web/css" },
+      { "from": "../src", "to": "web/src" },
+      { "from": "../vendor", "to": "web/vendor" },
+      { "from": "../icons", "to": "web/icons" }
+    ],
+    "icon": "../icons/icon-512.png",
+    "linux": { "target": ["AppImage", "deb"], "category": "Graphics" },
+    "win": { "target": "nsis" },
+    "mac": { "target": "dmg", "category": "public.app-category.graphics-design" }
+  }
+}

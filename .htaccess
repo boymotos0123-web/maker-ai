@@ -1,0 +1,10 @@
+# Tipos corretos para módulos JS / manifest (Apache: InfinityFree, Hostinger...)
+AddType text/javascript .js .mjs
+AddType application/manifest+json .webmanifest
+AddType application/json .json
+AddType image/svg+xml .svg
+<IfModule mod_headers.c>
+  <FilesMatch "sw\.js$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

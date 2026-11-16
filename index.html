@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>ZeyForge — CAD 3D de hardware</title>
+  <meta name="description" content="ZeyForge: modelagem 3D de hardware no navegador — celulares, notebooks, placas Arduino/ESP32, PCBs e peças, com vista explodida, corte, medição, booleanas e lista de materiais.">
+  <meta name="theme-color" content="#0f1216">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three/three.module.js",
+      "three/addons/": "./vendor/three/addons/",
+      "three-mesh-bvh": "./vendor/three-mesh-bvh.js",
+      "three-bvh-csg": "./vendor/three-bvh-csg.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header id="topbar"></header>
+  <main id="main">
+    <aside id="left" class="panel"></aside>
+    <section id="viewwrap">
+      <div id="view"></div>
+      <div id="viewbar"></div>
+      <div id="viewtools"></div>
+      <div id="axislegend"><span class="x">X</span><span class="y">Y</span><span class="z">Z</span></div>
+    </section>
+    <aside id="right" class="panel"></aside>
+  </main>
+  <footer id="status"></footer>
+  <div id="toast"></div>
+  <div id="boot">Carregando ZeyForge…</div>
+  <noscript>O ZeyForge precisa de JavaScript habilitado.</noscript>
+  <script type="module" src="src/main.js"></script>
+  <script>
+    window.addEventListener('error', e => { const b = document.getElementById('boot'); if (b) b.textContent = 'Erro ao iniciar: ' + e.message; });
+    window.addEventListener('load', () => setTimeout(() => document.getElementById('boot')?.remove(), 300));
+  </script>
+</body>
+</html>
